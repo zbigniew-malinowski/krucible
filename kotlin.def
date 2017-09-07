@@ -1,0 +1,120 @@
+# Ready to use Kotlin syntax highlighting config file. Install it on Crucible server according to Atlassian documentation.
+#
+# In order to customize keywords, provide them in the form of serialized prefix tree in the "keywords" section below.
+
+syntaxdef kotlin {
+
+
+/\s+/m : ;
+#keywords
+/(a(bstract|nnotation|s)|break|c(atch|lass|o(mpanion|n(st|tinue))|rossinline)\
+|d(ata|elegate|o|ynamic)|e(lse|num|xternal)|f(i(eld|le|nally)|or|un|alse)|get\
+|i(f|mport|n(fix|it|line|terface)|s|t)|n(oinline|ull)|o(bject|pe(n|rator)|ut)\
+|p(a(ckage|ram)|roperty)|re(ceiver|ified|turn)|s(e(aled|tparam)|u(per|spend))\
+|t(ailrec|h(is|row)|r(y|ue)|ype(alias|of))|va(l|rarg)|wh(en|ile))\b/ : {
+      region {
+        type=keyword;
+        index=word;
+      }
+}
+
+/[\p{L}_\$][\p{L}\p{N}_\$]*/ : {
+      region {
+         type=identifier;
+         index=word;
+      }
+  }
+
+#annotation
+/@[\p{L}_\$][\p{L}\p{N}_\$]*/ : {
+      region {
+         type=annotation;
+         index=word;
+      }
+  }
+
+
+# string literals
+/"/ : {
+    context {
+            /\\"/: ;
+            /\\./: ;
+            /$/m : exit;
+            "\"" : exit;
+        }
+        region ${ALL} {
+               type=string;
+        }
+    }
+
+# char literal
+/'/ : {
+    context {
+            /\\./: ;
+            /$/m : exit;
+            "'" : exit;
+        }
+        region ${ALL} {
+               type=char_literal;
+        }
+    }
+
+
+/\/\/.*$/m : {
+      todo(${0});
+      region {
+         type=comment;
+	     index=prose;
+	     findlinks=true;
+      }
+   }
+
+
+/\/\*\*(.*?)\*\//s : {
+      javadoc(${1});
+      region {
+         type=comment;
+         index=prose;
+         findlinks=true;
+      }
+   }
+
+   context javadoc {
+
+      /(\B@[a-zA-Z0-9-_.]+)\s*([^@\*]*)/ : {
+         region ${1} {
+            type=commentmeta;
+	     }
+      }
+   }
+
+/(0x[0-9a-f][0-9a-f_]*l?)|(0b[0-1][0-1_]*l?)|([0-9][0-9_]*(\.[0-9][0-9_]*)?|\.[0-9][0-9_]+)(e(\+|-)?[0-9][0-9_]*)?(f|l|d)?/i : {
+       region {
+          type=numeric;
+       }
+   }
+
+/\/\*(.*?)\*\//s : {
+      todo(${1});
+      region {
+         type=comment;
+         findlinks=true;
+      }
+      region ${1} {
+	     index=prose;
+      }
+   }
+
+   context todo {
+      /(?i)todo\s.*/ : {
+        region {
+          type=todo;
+        }
+      }
+
+   }
+
+}
+
+
+
