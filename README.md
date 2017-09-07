@@ -2,10 +2,10 @@
 Kotlin syntax highlighting for Atlassian Crucible
 
 ### Usage
-Just install [kotlin.def](krucible/kotlin.def) file on Crucible server as described 
+Just install [kotlin.def](kotlin.def) file on Crucible server as described 
 [here](https://confluence.atlassian.com/fishkb/configure-syntax-highlighting-for-non-standard-file-extensions-300811223.html).
 
-After installing the file, Crucible will highlight these [keywords](krucible/kotlin-keywords.txt).
+After installing the file, Crucible will highlight these [keywords](kotlin_keywords.txt).
 
 ### Modifications
 If you need to add/remove some keywords, you can edit *kotlin_keywords.txt* and 
